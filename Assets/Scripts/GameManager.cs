@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+
     private Location currentLocation;
 
     public void NewLocation(Location location) {
