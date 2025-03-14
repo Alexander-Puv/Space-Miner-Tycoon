@@ -6,6 +6,10 @@ public class Inventory : MonoBehaviour {
 
     public Dictionary<Resource, int> resources = new();
 
+    private void Start() {
+        Instance = this;
+    }
+
     public void AddResource(Resource resource, int amount) {
         if (resources.ContainsKey(resource)) {
             resources[resource] += amount;

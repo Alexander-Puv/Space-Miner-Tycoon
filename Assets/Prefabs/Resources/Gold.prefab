@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: resourceName
       value: Gold
       objectReference: {fileID: 0}
+    - target: {fileID: 7274215555170959820, guid: 0aaaf311a8dcd874596cb01bdc946197, type: 3}
+      propertyPath: miningDifficulty
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8138706882706928050, guid: 0aaaf311a8dcd874596cb01bdc946197, type: 3}
       propertyPath: m_Name
       value: Gold
