@@ -48,9 +48,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7274215555170959820, guid: 0aaaf311a8dcd874596cb01bdc946197, type: 3}
+      propertyPath: weight
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274215555170959820, guid: 0aaaf311a8dcd874596cb01bdc946197, type: 3}
+      propertyPath: basePrice
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274215555170959820, guid: 0aaaf311a8dcd874596cb01bdc946197, type: 3}
+      propertyPath: resourceName
+      value: Gold
+      objectReference: {fileID: 0}
     - target: {fileID: 8138706882706928050, guid: 0aaaf311a8dcd874596cb01bdc946197, type: 3}
       propertyPath: m_Name
-      value: GoldOre
+      value: Gold
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

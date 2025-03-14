@@ -4,7 +4,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
     public static Inventory Instance { get; private set; }
 
-    public Dictionary<Resource, int> resources = new Dictionary<Resource, int>();
+    public Dictionary<Resource, int> resources = new();
 
     public void AddResource(Resource resource, int amount) {
         if (resources.ContainsKey(resource)) {

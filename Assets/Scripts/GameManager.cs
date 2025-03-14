@@ -1,6 +1,13 @@
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+    public enum Rarity {
+        Common,
+        Uncommon,
+        Rare,
+        Epic,
+        Legendary
+    }
 
     private Location currentLocation;
 

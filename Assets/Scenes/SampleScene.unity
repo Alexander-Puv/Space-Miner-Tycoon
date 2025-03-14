@@ -445,6 +445,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7217034621794293827, guid: 39b258dc03426fc489c27ee983c22dc7, type: 3}
+      propertyPath: resourcesList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217034621794293827, guid: 39b258dc03426fc489c27ee983c22dc7, type: 3}
+      propertyPath: 'resourcesList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5927640663592531297, guid: ad4ecd81fcff8ab498c2682dc0a4c1aa, type: 3}
     - target: {fileID: 7519701388619170605, guid: 39b258dc03426fc489c27ee983c22dc7, type: 3}
       propertyPath: m_Name
       value: Asteroid

@@ -69,7 +69,7 @@
     <Compile Include="Assets\Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Spaceship.cs" />
-    <Compile Include="Assets\Scripts\ResourcesManager.cs" />
+    <Compile Include="Assets\Scripts\AsteroidModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
