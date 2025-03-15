@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Spaceship : MonoBehaviour {
     public static Spaceship Instance {  get; private set; }
@@ -6,6 +7,7 @@ public class Spaceship : MonoBehaviour {
     public float miningSpeed = 1f;
 
     private Location currentLoaction;
+    private InputActions inputActions;
 
     private void Awake() {
         if (Instance != null) {
@@ -14,13 +16,23 @@ public class Spaceship : MonoBehaviour {
         }
 
         Instance = this;
+
+        inputActions = new();
+        inputActions.Touch.Enable();
     }
 
     private void Update() {
-        Location location = GameManager.Instance.GetLocation();
-        if (location is Asteroid) {
-            Asteroid asteroid = location as Asteroid;
+        if (currentLoaction is Asteroid) {
+            Asteroid asteroid = currentLoaction as Asteroid;
             asteroid.MineResource();
+
+            if (inputActions.Touch.ClickOnAsteroid.WasPerformedThisFrame()) {
+                asteroid.MineResource();
+            }
         }
+    }
+
+    public void UpdateLocation() {
+        currentLoaction = GameManager.Instance.GetLocation();
     }
 }

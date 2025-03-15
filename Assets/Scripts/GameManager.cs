@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
         }
 
         currentLocation = location;
+        Spaceship.Instance.UpdateLocation();
     }
 
     public Location GetLocation() {
