@@ -97,4 +97,28 @@ public class Asteroid : Location {
         }
 
     }
+
+
+
+    public void MineResource() {
+        if (resourceLayers.Count == 0) {
+            Debug.Log("Asteroid is depleted!");
+            return;
+        }
+
+        ResourceLayer layer = resourceLayers[0];
+        int minedAmount = (int)(Mathf.Min(layer.amount, 10) * miningDifficulty * layer.resource.miningDifficulty / Spaceship.Instance.miningSpeed);
+
+        if (layer.amount - minedAmount < 0) {
+            Inventory.Instance.AddResource(layer.resource, layer.amount);
+            layer.amount = 0;
+        } else {
+            Inventory.Instance.AddResource(layer.resource, minedAmount);
+            layer.amount -= minedAmount;
+        }
+
+        if (layer.amount <= 0) {
+            resourceLayers.RemoveAt(0);
+        }
+    }
 }

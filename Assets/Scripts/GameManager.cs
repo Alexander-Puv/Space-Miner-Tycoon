@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+    public static GameManager Instance { get; private set; }
+
     public enum Rarity {
         Common,
         Uncommon,
@@ -14,6 +16,15 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private List<AsteroidModel> asteroidModels;
 
     private Location currentLocation;
+
+    private void Awake() {
+        if (Instance != null) {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     private void Start() {
         NewLocation(CreateAsteroid());

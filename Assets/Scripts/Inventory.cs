@@ -6,7 +6,12 @@ public class Inventory : MonoBehaviour {
 
     public Dictionary<Resource, int> resources = new();
 
-    private void Start() {
+    private void Awake() {
+        if (Instance != null) {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
     }
 
