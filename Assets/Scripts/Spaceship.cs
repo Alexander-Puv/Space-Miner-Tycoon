@@ -24,15 +24,23 @@ public class Spaceship : MonoBehaviour {
     private void Update() {
         if (currentLoaction is Asteroid) {
             Asteroid asteroid = currentLoaction as Asteroid;
-            asteroid.MineResource();
+            //asteroid.MineResource();
 
             if (inputActions.Touch.ClickOnAsteroid.WasPerformedThisFrame()) {
                 asteroid.MineResource();
+                TryDropBonus();
             }
         }
     }
 
     public void UpdateLocation() {
         currentLoaction = GameManager.Instance.GetLocation();
+    }
+
+    private void TryDropBonus() {
+        Bonus bonus = BonusManager.Instance.GetRandomBonus();
+        if (bonus != null) {
+            BonusManager.Instance.ApplyBonus(bonus.Type, bonus.GetRandomValue(), bonus.GetRandomDuration());
+        }
     }
 }
