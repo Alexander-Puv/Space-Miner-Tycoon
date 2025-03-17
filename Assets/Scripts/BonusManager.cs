@@ -57,6 +57,14 @@ public class BonusManager : MonoBehaviour {
     }
 
 
+    public void TryDropBonus(Vector3 spawnPosition) {
+        Bonus bonusPrefab = GetRandomBonus();
+        if (bonusPrefab != null) {
+            Bonus bonusInstance = Instantiate(bonusPrefab);
+            bonusInstance.Initialize(GameManager.ClampToScreen(spawnPosition));
+        }
+    }
+
     public Bonus GetRandomBonus() {
         var randomBonus = possibleBonuses[Random.Range(0, possibleBonuses.Count)];
 

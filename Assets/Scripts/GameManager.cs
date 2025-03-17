@@ -50,4 +50,15 @@ public class GameManager : MonoBehaviour {
         Instantiate(asteroidModel, asteroidObject.transform);
         return asteroidObject.GetComponent<Asteroid>();
     }
+
+
+    public static Vector2 ClampToScreen(Vector3 position) {
+        Vector3 min = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 max = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+        position.x = Mathf.Clamp(position.x, min.x, max.x);
+        position.y = Mathf.Clamp(position.y, min.y, max.y);
+
+        return (Vector2)position;
+    }
 }

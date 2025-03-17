@@ -104,3 +104,5 @@ MonoBehaviour:
   ScaleFrom: {x: 0, y: 0, z: 0}
   ScaleTo: {x: 0, y: 0, z: 0}
   rarity: 0300000004000000
+  minLayers: 1
+  maxLayers: 5

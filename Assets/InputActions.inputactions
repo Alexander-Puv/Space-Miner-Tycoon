@@ -3,22 +3,22 @@
     "maps": [
         {
             "name": "Touch",
-            "id": "e39540e3-7eac-4b47-94a6-f4adcc261d79",
+            "id": "5a23dbae-acd2-4013-8a9f-dbe1bdcd3bf9",
             "actions": [
                 {
                     "name": "ClickOnAsteroid",
                     "type": "Button",
-                    "id": "e2673c88-1493-44ff-83d4-d4942c3bc270",
+                    "id": "05dd8019-ccec-43a5-8ede-717621c30bda",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "579f9446-7036-4610-b7a4-794d15c914f1",
+                    "id": "ed86843d-ad3c-44f9-8e3c-f7c7bd6d1d0d",
                     "path": "<Touchscreen>/Press",
                     "interactions": "",
                     "processors": "",
@@ -29,7 +29,7 @@
                 },
                 {
                     "name": "",
-                    "id": "0caa75e8-202f-4e8f-8781-5a2a487d2261",
+                    "id": "2641d40f-7bd4-40d7-a252-eeae75a69e9e",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
