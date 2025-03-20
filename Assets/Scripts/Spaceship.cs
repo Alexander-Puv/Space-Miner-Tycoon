@@ -48,7 +48,8 @@ public class Spaceship : MonoBehaviour {
     }
 
     private void Update() {
-        if (currentLocation is Asteroid asteroid && fuel > 0 && durability > 0) {
+        if (currentLocation is Asteroid asteroid && fuel > 0 && durability > 0
+            && Inventory.Instance.currentCapacity < Inventory.Instance.maxCapacity) {
             asteroid.MineResource(currentMiningSpeed * Time.deltaTime);
             fuel -= baseFuelConsumption * upgrades.fuelEfficiencyMultiplier * Time.deltaTime;
             durability -= baseDurabilityConsumption * Time.deltaTime;
