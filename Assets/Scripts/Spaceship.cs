@@ -10,6 +10,7 @@ public class Spaceship : MonoBehaviour {
         public float fuelEfficiencyMultiplier = 1f;
         public float durabilityMultiplier = 1f;
         public float miningSpeedMultiplier = 1f;
+        public float travelSpeedMultiplier = 1f;
     }
 
     [Header("Base Stats")]
@@ -18,6 +19,7 @@ public class Spaceship : MonoBehaviour {
     public float baseMaxDurability = 1000f;
     public float baseFuelConsumption = 1f;
     public float baseDurabilityConsumption = 0.1f;
+    public float baseTravelSpeed = 10f;
 
     [Header("Current Stats")]
     public float fuel;
@@ -25,11 +27,14 @@ public class Spaceship : MonoBehaviour {
     private float currentMaxFuel;
     private float currentMaxDurability;
     private float currentMiningSpeed;
+    private float currentTravelSpeed;
 
-    [SerializeField]
-    private ShipUpgrades upgrades = new();
+    [SerializeField] private ShipUpgrades upgrades = new();
 
     private Location currentLocation;
+    private Location targetLocation;
+    private bool isTraveling = false;
+    private float travelProgress = 0f;
     private InputActions inputActions;
 
     private void Awake() {
@@ -62,12 +67,15 @@ public class Spaceship : MonoBehaviour {
                 Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
                 BonusManager.Instance.TryDropBonus(worldPosition);
             }
+        } else if (isTraveling) {
+            TravelToLocation();
         }
     }
 
-    public void UpdateLocation() {
-        currentLocation = GameManager.Instance.GetLocation();
+    public void UpdateLocation(Location currentLocation) {
+        this.currentLocation = currentLocation;
     }
+
 
     public void UpgradeFuelCapacity(float multiplierIncrease) {
         upgrades.fuelCapacityMultiplier += multiplierIncrease;
@@ -91,13 +99,47 @@ public class Spaceship : MonoBehaviour {
         UpdateShipStats();
     }
 
+    public void UpgradeTravelSpeed(float multiplierIncrease) {
+        upgrades.travelSpeedMultiplier += multiplierIncrease;
+        UpdateShipStats();
+    }
+
     private void UpdateShipStats() {
         currentMaxFuel = baseMaxFuel * upgrades.fuelCapacityMultiplier;
         currentMaxDurability = baseMaxDurability * upgrades.durabilityMultiplier;
         currentMiningSpeed = baseMiningSpeed * upgrades.miningSpeedMultiplier;
+        currentTravelSpeed = baseTravelSpeed * upgrades.travelSpeedMultiplier;
     }
 
     public float GetCurrentMaxFuel() => currentMaxFuel;
     public float GetCurrentMaxDurability() => currentMaxDurability;
     public float GetCurrentMiningSpeed() => currentMiningSpeed;
+
+
+    public void TravelTo(Location location) {
+        if (isTraveling) {
+            Debug.LogWarning("Already traveling!");
+            return;
+        }
+
+        if (fuel <= 0) {
+            Debug.LogWarning("Not enough fuel to travel!");
+            return;
+        }
+
+        targetLocation = location;
+        isTraveling = true;
+        travelProgress = 0f;
+    }
+
+    private void TravelToLocation() {
+        travelProgress += Time.deltaTime * currentTravelSpeed;
+        fuel -= baseFuelConsumption * upgrades.fuelEfficiencyMultiplier * Time.deltaTime;
+
+        if (travelProgress >= 1f) {
+            isTraveling = false;
+            GameManager.Instance.NewLocation(targetLocation);
+            Debug.Log("Arrived at destination!");
+        }
+    }
 }

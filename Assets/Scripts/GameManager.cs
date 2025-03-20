@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private Asteroid asteroidPrefab;
     [SerializeField] private List<AsteroidModel> asteroidModels;
+    [SerializeField] private Planet planetPrefab;
+    [SerializeField] private List<AsteroidModel> planetModels;
 
     private Location currentLocation;
 
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviour {
         }
 
         currentLocation = location;
-        Spaceship.Instance.UpdateLocation();
+        Spaceship.Instance.UpdateLocation(currentLocation);
     }
 
     public Location GetLocation() {
@@ -49,6 +51,13 @@ public class GameManager : MonoBehaviour {
         AsteroidModel asteroidModel = asteroidModels[Random.Range(0, asteroidModels.Count)];
         Instantiate(asteroidModel, asteroidObject.transform);
         return asteroidObject.GetComponent<Asteroid>();
+    }
+
+    public Planet CreatePlanet() {
+        Planet planetObject = Instantiate(planetPrefab);
+        AsteroidModel planetModel = planetModels[Random.Range(0, planetModels.Count)];
+        Instantiate(planetModel, planetModel.transform);
+        return planetObject.GetComponent<Planet>();
     }
 
 
