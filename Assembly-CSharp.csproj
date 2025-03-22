@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BonusManager.cs" />
     <Compile Include="Assets\Scripts\Location\Location.cs" />
+    <Compile Include="Assets\Scripts\TravelMenu.cs" />
     <Compile Include="Assets\Scripts\Location\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Resource.cs" />
     <Compile Include="Assets\Scripts\Location\Planet.cs" />
@@ -72,6 +73,9 @@
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Spaceship.cs" />
     <Compile Include="Assets\Scripts\AsteroidModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\UI\NewUXMLTemplate.uxml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
