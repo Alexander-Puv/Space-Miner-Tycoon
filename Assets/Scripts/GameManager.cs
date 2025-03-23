@@ -51,15 +51,23 @@ public class GameManager : MonoBehaviour {
         NewLocation(CreateAsteroid());
     }
 
-    public void NewLocation(Location location) {
+    public void NewLocation(Location location, bool start = false) {
         if (currentLocation != null) {
             Destroy(currentLocation.gameObject);
         }
 
+        //if (!start) {
+        //    currentLocation = Instantiate(location, Vector3.zero, Quaternion.identity);
+        //}
         currentLocation = location;
+        currentLocation.transform.localScale = Vector3.one;
         Spaceship.Instance.UpdateLocation(currentLocation);
 
+        TravelMenu.Instance.ShowMenu();
         TravelMenu.Instance.GenerateNewLocations();
+        TravelMenu.Instance.HideMenu();
+
+        SetTravelButtonsDisplay(false);
     }
 
     public Location GetLocation() {

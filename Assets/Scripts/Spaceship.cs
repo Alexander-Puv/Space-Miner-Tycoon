@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.FilePathAttribute;
 
 public class Spaceship : MonoBehaviour {
     public static Spaceship Instance { get; private set; }
@@ -53,7 +55,8 @@ public class Spaceship : MonoBehaviour {
     }
 
     private void Update() {
-        if (currentLocation is Asteroid asteroid && fuel > 0 && durability > 0
+        if (currentLocation is Asteroid asteroid && targetLocation == null
+            && fuel > 0 && durability > 0
             && Inventory.Instance.currentCapacity < Inventory.Instance.maxCapacity) {
             asteroid.MineResource(currentMiningSpeed * Time.deltaTime);
             fuel -= baseFuelConsumption * upgrades.fuelEfficiencyMultiplier * Time.deltaTime;
@@ -70,7 +73,7 @@ public class Spaceship : MonoBehaviour {
         } else if (isTraveling) {
             TravelToLocation();
         }
-    }
+}
 
     public void UpdateLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
@@ -127,19 +130,27 @@ public class Spaceship : MonoBehaviour {
             return;
         }
 
+        if (currentLocation != null) {
+            Destroy(currentLocation.gameObject);
+        }
+
         targetLocation = location;
         isTraveling = true;
         travelProgress = 0f;
     }
 
     private void TravelToLocation() {
-        travelProgress += Time.deltaTime * currentTravelSpeed;
+        float travelTime = 10f;
+        travelProgress += Time.deltaTime / travelTime * 100f;
+
         fuel -= baseFuelConsumption * upgrades.fuelEfficiencyMultiplier * Time.deltaTime;
 
-        if (travelProgress >= 1f) {
+        if (travelProgress >= 100f) {
             isTraveling = false;
-            GameManager.Instance.NewLocation(targetLocation);
-            Debug.Log("Arrived at destination!");
+            var location = Instantiate(targetLocation, Vector3.zero, Quaternion.identity);
+            GameManager.Instance.NewLocation(location);
+            targetLocation = null;
+            Debug.Log("Arrived at destination!");;
         }
     }
 }

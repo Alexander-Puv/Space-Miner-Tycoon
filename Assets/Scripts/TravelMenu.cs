@@ -35,6 +35,7 @@ public class TravelMenu : MonoBehaviour {
 
     public void GenerateNewLocations() {
         foreach (var loc in locations) {
+            if (loc == null || loc.gameObject == null) continue;
             Destroy(loc.gameObject);
         }
         locations.Clear();
@@ -52,6 +53,7 @@ public class TravelMenu : MonoBehaviour {
         }
 
         HideMenu();
+        GameManager.Instance.SetTravelButtonsDisplay(false);
         location.SetCanBeSelected(false);
         GameManager.Instance.StartTravel(location);
     }
