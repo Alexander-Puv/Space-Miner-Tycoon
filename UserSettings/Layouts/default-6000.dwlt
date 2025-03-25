@@ -41,7 +41,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 223
+    width: 226
     height: 216
   m_MinSize: {x: 201, y: 226}
   m_MaxSize: {x: 4001, y: 4026}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 52
+  controlID: 51
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 15
+  controlID: 87
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -143,9 +143,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 223
+    x: 226
     y: 0
-    width: 1442
+    width: 1439
     height: 216
   m_MinSize: {x: 102, y: 126}
   m_MaxSize: {x: 4002, y: 4026}
@@ -326,7 +326,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Planet
+    - Assets/Scripts
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -336,15 +336,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs/Planet
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: F:\projects\Unity\Space Miner Tycoon
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 74}
-    m_SelectedIDs: 66b10000
-    m_LastClickedID: 45414
+    scrollPos: {x: 0, y: 134}
+    m_SelectedIDs: 70af0000
+    m_LastClickedID: 44912
     m_ExpandedIDs: 000000006eaf000070af000072af000074af000076af0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -400,8 +400,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: 284a0000
+    m_LastClickedInstanceID: 18984
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -504,7 +504,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 24
-    width: 222
+    width: 225
     height: 190
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -522,7 +522,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 6c8bffff7c90ffffa0d0ffff42d1ffff34f7ffff0cfbffff4aae00005eae0000
+      m_ExpandedIDs: bef4ffff0cfbffff34ae00005eae0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -539,7 +539,7 @@ MonoBehaviour:
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
-        m_ClientGUIView: {fileID: 11}
+        m_ClientGUIView: {fileID: 2}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -1126,9 +1126,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -1.5117438, y: 1.6849585, z: -10.00454}
+    m_Target: {x: 8.690189, y: 0.37557858, z: -9.996708}
     speed: 2
-    m_Value: {x: -1.5117438, y: 1.6849585, z: -10.00454}
+    m_Value: {x: 8.690189, y: 0.37557858, z: -9.996708}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1178,9 +1178,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 12.578583
+    m_Target: 11.795382
     speed: 2
-    m_Value: 12.578583
+    m_Value: 11.795382
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1333,9 +1333,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 224
+    x: 227
     y: 24
-    width: 1440
+    width: 1437
     height: 190
   m_SerializedDataModeController:
     m_DataMode: 0

@@ -19,9 +19,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private Asteroid asteroidPrefab;
     [SerializeField] private List<AsteroidModel> asteroidModels;
     [SerializeField] private Planet planetPrefab;
-    [SerializeField] private List<AsteroidModel> planetModels; // planet model
+    [SerializeField] private List<PlanetModel> planetModels;
     [SerializeField] private UIDocument UIDoc;
-
+    
     private Location currentLocation;
     private Button travelButton;
     private Button travelCloseMenuButton;
@@ -56,9 +56,6 @@ public class GameManager : MonoBehaviour {
             Destroy(currentLocation.gameObject);
         }
 
-        //if (!start) {
-        //    currentLocation = Instantiate(location, Vector3.zero, Quaternion.identity);
-        //}
         currentLocation = location;
         currentLocation.transform.localScale = Vector3.one;
         Spaceship.Instance.UpdateLocation(currentLocation);
@@ -76,17 +73,16 @@ public class GameManager : MonoBehaviour {
 
 
     public Asteroid CreateAsteroid(Transform parent = null) {
-        Asteroid asteroid = Instantiate(asteroidPrefab, parent);
-        AsteroidModel asteroidModel = asteroidModels[Random.Range(0, asteroidModels.Count)];
-        Instantiate(asteroidModel, asteroid.transform);
-        return asteroid;
+        return CreateLocation(asteroidPrefab, new List<LocationModel>(asteroidModels), parent) as Asteroid;
     }
-
     public Planet CreatePlanet(Transform parent = null) {
-        Planet planet = Instantiate(planetPrefab, parent);
-        AsteroidModel planetModel = planetModels[Random.Range(0, planetModels.Count)];
-        Instantiate(planetModel, planet.transform);
-        return planet;
+        return CreateLocation(planetPrefab, new List<LocationModel>(planetModels), parent) as Planet;
+    }
+    public Location CreateLocation(Location prefab, List<LocationModel> models, Transform parent = null) {
+        Location location = Instantiate(prefab, parent);
+        LocationModel locationModel = models[Random.Range(0, models.Count)];
+        Instantiate(locationModel, location.transform);
+        return location;
     }
 
 

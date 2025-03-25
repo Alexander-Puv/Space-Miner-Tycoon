@@ -1,7 +1,5 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.FilePathAttribute;
 
 public class Spaceship : MonoBehaviour {
     public static Spaceship Instance { get; private set; }

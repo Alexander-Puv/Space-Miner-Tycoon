@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour {
 
     public bool AddResource(Resource resource, int amount) {
         if (currentCapacity + amount > maxCapacity) {
-            Debug.LogWarning("Inventory is full!");
+            Debug.Log("Inventory is full!");
             return false;
         }
 
