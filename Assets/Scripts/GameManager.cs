@@ -21,7 +21,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private Planet planetPrefab;
     [SerializeField] private List<PlanetModel> planetModels;
     [SerializeField] private UIDocument UIDoc;
-    
+
+    public List<Resource> resourcesList;
+
     private Location currentLocation;
     private Button travelButton;
     private Button travelCloseMenuButton;

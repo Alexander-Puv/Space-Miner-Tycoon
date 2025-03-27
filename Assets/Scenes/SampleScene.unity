@@ -535,7 +535,8 @@ MonoBehaviour:
   - {fileID: 4589435458994894229, guid: c00ede24c7fb6de47b13939d96aa114c, type: 3}
   planetPrefab: {fileID: 3513287401488042700, guid: 87ce8e98298b4af45921110acc8cc143, type: 3}
   planetModels:
-  - {fileID: 4589435458994894229, guid: c00ede24c7fb6de47b13939d96aa114c, type: 3}
+  - {fileID: -53269941447133883, guid: 340823881ae3b49419f698fed747e87d, type: 3}
+  - {fileID: -6926342928375730815, guid: 658bee016b4e9034c87ba8a4ae512fc3, type: 3}
   UIDoc: {fileID: 577105630}
 --- !u!114 &1963763632
 MonoBehaviour:

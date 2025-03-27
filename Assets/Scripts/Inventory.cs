@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
     public static Inventory Instance { get; private set; }
+    
+    [SerializeField] private float money;
 
     public Dictionary<Resource, int> resources = new();
     public int maxCapacity = 1000;
@@ -55,5 +57,16 @@ public class Inventory : MonoBehaviour {
     public void UpgradeCapacity(int additionalCapacity) {
         maxCapacity += additionalCapacity;
         Debug.Log($"Inventory capacity upgraded to {maxCapacity}");
+    }
+
+
+    public bool SpendMoney(float amount) {
+        if (money < amount) return false;
+        money -= amount;
+        return true;
+    }
+
+    public void EarnMoney(float amount) {
+        money += amount;
     }
 }

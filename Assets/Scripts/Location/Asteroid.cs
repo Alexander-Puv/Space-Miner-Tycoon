@@ -7,8 +7,6 @@ public class Asteroid : Location {
         public int amount;
     }
 
-    [SerializeField] private List<Resource> resourcesList;
-
     public GameManager.Rarity rarity;
     public int minResourcesAmount = 300;
     public int maxResourcesAmount = 1000;
@@ -61,14 +59,14 @@ public class Asteroid : Location {
         }
 
         float randomValue = Random.Range(0, totalChances);
-        foreach (var resource in resourcesList) {
+        foreach (var resource in GameManager.Instance.resourcesList) {
             if (randomValue < (rarityChances[resource.rarity] - lostChances / lostChancesAmount)) {
                 return resource;
             }
             randomValue -= rarityChances[resource.rarity];
         }
 
-        return resourcesList[0];
+        return GameManager.Instance.resourcesList[0];
     }
 
     private int GetResourceAmountBasedOnRarity() {

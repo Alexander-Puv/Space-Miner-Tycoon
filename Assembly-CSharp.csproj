@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Location\Models\AsteroidModel.cs" />
     <Compile Include="Assets\Scripts\Location\Models\PlanetModel.cs" />
     <Compile Include="Assets\Scripts\Location\Planet.cs" />
+    <Compile Include="Assets\Scripts\PlanetEconomy.cs" />
     <Compile Include="Assets\Scripts\Location\Models\LocationModel.cs" />
     <Compile Include="Assets\Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\Bonus.cs" />
