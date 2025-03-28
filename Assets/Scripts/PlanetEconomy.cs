@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Resources;
 using UnityEngine;
 
 public class PlanetEconomy : MonoBehaviour {
@@ -8,7 +7,7 @@ public class PlanetEconomy : MonoBehaviour {
     public enum EventType {
         None,
         War,          // Всё сильно дороже, меньше спрос на невоенные товары
-        EconomicBoom, // Покупают дороже и продают дороже
+        EconomicBoom, // Покупают дороже и продают дороже (улучшения дешевле?)
         Crisis        // Топливо в дефиците, цены на него выше
     }
 
@@ -18,15 +17,14 @@ public class PlanetEconomy : MonoBehaviour {
         Upgrade,
     }
 
-    public PlanetModel.PlanetType Type;
     public EventType CurrentEvent = EventType.None;
 
     private Dictionary<Resource, float> resourcePrices = new();
     private Dictionary<ServiceType, float> servicePrices = new();
 
-    public void GenerateBasePrices() {
+    public void GenerateBasePrices(PlanetModel.PlanetType planetType) {
         foreach (var resource in GameManager.Instance.resourcesList) {
-            resourcePrices[resource] = GetBaseResourcePrice(resource);
+            resourcePrices[resource] = GetBaseResourcePrice(resource, planetType);
         }
 
         servicePrices[ServiceType.Repair] = 500f;
@@ -34,13 +32,29 @@ public class PlanetEconomy : MonoBehaviour {
         servicePrices[ServiceType.Upgrade] = 1000f;
     }
 
-    private float GetBaseResourcePrice(Resource resource) {
-        return Type switch {
-            PlanetModel.PlanetType.Industrial => resource.basePrice * 0.8f,
-            PlanetModel.PlanetType.Mining => resource.basePrice * 1.2f,
-            PlanetModel.PlanetType.Trading => resource.basePrice,
-            _ => resource.basePrice
-        };
+    private float GetBaseResourcePrice(Resource resource, PlanetModel.PlanetType planetType) {
+        switch (planetType) {
+            case PlanetModel.PlanetType.Industrial:
+                servicePrices[ServiceType.Upgrade] *= .8f;
+                return resource.basePrice * 1.2f;
+            case PlanetModel.PlanetType.Mining:
+                servicePrices[ServiceType.Upgrade] *= 1.2f;
+                return resource.basePrice * .8f;
+            case PlanetModel.PlanetType.Trading:
+                // случайные скидки и добавки в цене
+                var rand = Random.Range(0f, 1f);
+                if (rand < .2f) {
+                    return resource.basePrice * .8f;
+                }
+                if (rand > .8f) {
+                    return resource.basePrice * 1.2f;
+                }
+                return resource.basePrice;
+            case PlanetModel.PlanetType.Petrocracy:
+                servicePrices[ServiceType.Fuel] *= .8f;
+                return resource.basePrice * 1.2f;
+            default: return resource.basePrice;
+        }
     }
 
     public void ApplyEventModifiers() {
@@ -55,7 +69,7 @@ public class PlanetEconomy : MonoBehaviour {
                 foreach (var key in resourcePrices.Keys) {
                     resourcePrices[key] *= 1.3f;
                 }
-                servicePrices[ServiceType.Upgrade] *= 0.8f;
+                servicePrices[ServiceType.Upgrade] *= .8f;
                 break;
             case EventType.Crisis:
                 servicePrices[ServiceType.Fuel] *= 2f;

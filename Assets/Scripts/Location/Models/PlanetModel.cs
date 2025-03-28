@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static GameManager;
 
 public class PlanetModel : LocationModel {
     public enum PlanetType {
-        Industrial, // Дешевое топливо, дорогие апгрейды
-        Mining,     // Дорогие ресурсы, дешевый ремонт
-        Trading     // Средние цены, возможны скидки/надбавки
+        Industrial, // Дорогие ресурсы, дешевый ремонт
+        Mining,     // Дешевые ресурсы, дорогие апгрейды
+        Trading,    // Средние цены, возможны скидки/надбавки
+        Petrocracy  // Цены на нефть дешевле, на ресурсы - дороже
     }
 
     [SerializeField] private List<PlanetType> planetTypes;

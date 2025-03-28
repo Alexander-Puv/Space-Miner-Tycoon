@@ -11,7 +11,7 @@ public class Planet : Location {
         planetType = planetModel.GetRandomPlanetType();
         rarity = planetModel.GetRarity();
 
-        PlanetEconomy.Instance.GenerateBasePrices();
+        PlanetEconomy.Instance.GenerateBasePrices(planetType);
         PlanetEconomy.Instance.ApplyEventModifiers();
         if (Random.Range(0f, 1f) < .4f) {
             PlanetEconomy.Instance.SetRandomEvent();
