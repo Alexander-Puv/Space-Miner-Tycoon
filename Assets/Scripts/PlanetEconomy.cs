@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlanetEconomy : MonoBehaviour {
-    public static PlanetEconomy Instance {  get; private set; }
+    public static PlanetEconomy Instance { get; private set; }
 
     public enum EventType {
         None,
@@ -17,7 +17,11 @@ public class PlanetEconomy : MonoBehaviour {
         Upgrade,
     }
 
-    public EventType CurrentEvent = EventType.None;
+    public const float BASE_REPAIR_PRICE = 500f;
+    public const float BASE_FUEL_PRICE = 2f;
+    public const float BASE_UPGRADE_PRICE = 1000f;
+
+    public EventType currentEvent = EventType.None;
 
     private Dictionary<Resource, float> resourcePrices = new();
     private Dictionary<ServiceType, float> servicePrices = new();
@@ -27,9 +31,9 @@ public class PlanetEconomy : MonoBehaviour {
             resourcePrices[resource] = GetBaseResourcePrice(resource, planetType);
         }
 
-        servicePrices[ServiceType.Repair] = 500f;
-        servicePrices[ServiceType.Fuel] = 2f;
-        servicePrices[ServiceType.Upgrade] = 1000f;
+        servicePrices[ServiceType.Repair] = BASE_REPAIR_PRICE;
+        servicePrices[ServiceType.Fuel] = BASE_FUEL_PRICE;
+        servicePrices[ServiceType.Upgrade] = BASE_UPGRADE_PRICE;
     }
 
     private float GetBaseResourcePrice(Resource resource, PlanetModel.PlanetType planetType) {
@@ -41,7 +45,6 @@ public class PlanetEconomy : MonoBehaviour {
                 servicePrices[ServiceType.Upgrade] *= 1.2f;
                 return resource.basePrice * .8f;
             case PlanetModel.PlanetType.Trading:
-                // случайные скидки и добавки в цене
                 var rand = Random.Range(0f, 1f);
                 if (rand < .2f) {
                     return resource.basePrice * .8f;
@@ -58,7 +61,7 @@ public class PlanetEconomy : MonoBehaviour {
     }
 
     public void ApplyEventModifiers() {
-        switch (CurrentEvent) {
+        switch (currentEvent) {
             case EventType.War:
                 foreach (var key in resourcePrices.Keys) {
                     resourcePrices[key] *= 1.5f;
@@ -86,7 +89,7 @@ public class PlanetEconomy : MonoBehaviour {
     }
 
     public void SetRandomEvent() {
-        CurrentEvent = (EventType)Random.Range(0, 4);
+        currentEvent = (EventType)Random.Range(0, 4);
         ApplyEventModifiers();
     }
 }

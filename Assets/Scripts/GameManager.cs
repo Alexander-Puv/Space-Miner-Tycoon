@@ -53,7 +53,11 @@ public class GameManager : MonoBehaviour {
         NewLocation(CreateAsteroid());
     }
 
-    public void NewLocation(Location location, bool start = false) {
+    public void NewLocation(Location location) {
+        if (currentLocation is Planet) {
+            PlanetEconomy.Instance.currentEvent = PlanetEconomy.EventType.None;
+        }
+
         if (currentLocation != null) {
             Destroy(currentLocation.gameObject);
         }
