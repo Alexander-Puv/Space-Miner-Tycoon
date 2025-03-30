@@ -79,6 +79,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 753bb23c644cb2e48832ce1ffd6c48c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: -53269941447133883}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 753bb23c644cb2e48832ce1ffd6c48c8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4652131708611992629}
   m_SourcePrefab: {fileID: 100100000, guid: 753bb23c644cb2e48832ce1ffd6c48c8, type: 3}
 --- !u!1 &5628321935685759092 stripped
 GameObject:
@@ -106,3 +109,26 @@ MonoBehaviour:
   rarity: 020000000300000004000000
   minLayers: 1
   maxLayers: 5
+  planetTypes: 02000000
+--- !u!64 &4652131708611992629
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5628321935685759092}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8777139954052135742, guid: 753bb23c644cb2e48832ce1ffd6c48c8, type: 3}

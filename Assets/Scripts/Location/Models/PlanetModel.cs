@@ -12,7 +12,7 @@ public class PlanetModel : LocationModel {
     [SerializeField] private List<PlanetType> planetTypes;
 
     public PlanetType GetRandomPlanetType() {
-        if (planetTypes == null) {
+        if (planetTypes.Count == 0) {
             return PlanetType.Trading;
         }
         return planetTypes[Random.Range(0, planetTypes.Count - 1)];

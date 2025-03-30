@@ -65,8 +65,6 @@ public class Spaceship : MonoBehaviour {
         UpdateShipStats();
         fuel = currentMaxFuel;
         durability = currentMaxDurability;
-
-        fuel = 0;
     }
 
     private void Update() {
@@ -100,7 +98,16 @@ public class Spaceship : MonoBehaviour {
         } else if (isTraveling) {
             TravelToLocation();
         }
-}
+    }
+
+    public void OnAsteroidClick(Asteroid asteroid) {
+        asteroid.MineResource(currentMiningSpeed * 0.5f);
+        durability -= baseDurabilityConsumption * 3f;
+
+        Vector2 screenPosition = Mouse.current.position.ReadValue();
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        BonusManager.Instance.TryDropBonus(worldPosition);
+    }
 
     public void UpdateLocation(Location currentLocation) {
         this.currentLocation = currentLocation;

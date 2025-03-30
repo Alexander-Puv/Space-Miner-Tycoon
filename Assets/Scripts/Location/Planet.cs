@@ -13,9 +13,9 @@ public class Planet : Location {
 
         PlanetEconomy.Instance.GenerateBasePrices(planetType);
         PlanetEconomy.Instance.ApplyEventModifiers();
-        if (Random.Range(0f, 1f) < .4f) {
+        //if (Random.Range(0f, 1f) < .4f) {
             PlanetEconomy.Instance.SetRandomEvent();
-        }
+        //}
     }
 
     public void RepairSpaceship() {

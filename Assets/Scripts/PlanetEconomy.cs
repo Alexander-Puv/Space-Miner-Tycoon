@@ -26,14 +26,21 @@ public class PlanetEconomy : MonoBehaviour {
     private Dictionary<Resource, float> resourcePrices = new();
     private Dictionary<ServiceType, float> servicePrices = new();
 
+    private void Awake() {
+        Instance = this;
+    }
+
     public void GenerateBasePrices(PlanetModel.PlanetType planetType) {
+        servicePrices.Clear();
+        resourcePrices.Clear();
+
+        servicePrices.Add(ServiceType.Repair, BASE_REPAIR_PRICE);
+        servicePrices.Add(ServiceType.Fuel, BASE_FUEL_PRICE);
+        servicePrices.Add(ServiceType.Upgrade, BASE_UPGRADE_PRICE);
+
         foreach (var resource in GameManager.Instance.resourcesList) {
             resourcePrices[resource] = GetBaseResourcePrice(resource, planetType);
         }
-
-        servicePrices[ServiceType.Repair] = BASE_REPAIR_PRICE;
-        servicePrices[ServiceType.Fuel] = BASE_FUEL_PRICE;
-        servicePrices[ServiceType.Upgrade] = BASE_UPGRADE_PRICE;
     }
 
     private float GetBaseResourcePrice(Resource resource, PlanetModel.PlanetType planetType) {
@@ -61,15 +68,17 @@ public class PlanetEconomy : MonoBehaviour {
     }
 
     public void ApplyEventModifiers() {
+        var keys = new List<Resource>(resourcePrices.Keys);
+
         switch (currentEvent) {
             case EventType.War:
-                foreach (var key in resourcePrices.Keys) {
+                foreach (var key in keys) {
                     resourcePrices[key] *= 1.5f;
                 }
                 servicePrices[ServiceType.Repair] *= 2f;
                 break;
             case EventType.EconomicBoom:
-                foreach (var key in resourcePrices.Keys) {
+                foreach (var key in keys) {
                     resourcePrices[key] *= 1.3f;
                 }
                 servicePrices[ServiceType.Upgrade] *= .8f;
