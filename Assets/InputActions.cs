@@ -86,57 +86,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""InputActions"",
-    ""maps"": [
-        {
-            ""name"": ""Touch"",
-            ""id"": ""5a23dbae-acd2-4013-8a9f-dbe1bdcd3bf9"",
-            ""actions"": [
-                {
-                    ""name"": ""ClickOnAsteroid"",
-                    ""type"": ""Button"",
-                    ""id"": ""05dd8019-ccec-43a5-8ede-717621c30bda"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""ed86843d-ad3c-44f9-8e3c-f7c7bd6d1d0d"",
-                    ""path"": ""<Touchscreen>/Press"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ClickOnAsteroid"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2641d40f-7bd4-40d7-a252-eeae75a69e9e"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ClickOnAsteroid"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        }
-    ],
+    ""maps"": [],
     ""controlSchemes"": []
 }");
-        // Touch
-        m_Touch = asset.FindActionMap("Touch", throwIfNotFound: true);
-        m_Touch_ClickOnAsteroid = m_Touch.FindAction("ClickOnAsteroid", throwIfNotFound: true);
     }
 
     ~@InputActions()
     {
-        UnityEngine.Debug.Assert(!m_Touch.enabled, "This will cause a leak and performance issues, InputActions.Touch.Disable() has not been called.");
     }
 
     /// <summary>
@@ -207,116 +163,5 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     public int FindBinding(InputBinding bindingMask, out InputAction action)
     {
         return asset.FindBinding(bindingMask, out action);
-    }
-
-    // Touch
-    private readonly InputActionMap m_Touch;
-    private List<ITouchActions> m_TouchActionsCallbackInterfaces = new List<ITouchActions>();
-    private readonly InputAction m_Touch_ClickOnAsteroid;
-    /// <summary>
-    /// Provides access to input actions defined in input action map "Touch".
-    /// </summary>
-    public struct TouchActions
-    {
-        private @InputActions m_Wrapper;
-
-        /// <summary>
-        /// Construct a new instance of the input action map wrapper class.
-        /// </summary>
-        public TouchActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "Touch/ClickOnAsteroid".
-        /// </summary>
-        public InputAction @ClickOnAsteroid => m_Wrapper.m_Touch_ClickOnAsteroid;
-        /// <summary>
-        /// Provides access to the underlying input action map instance.
-        /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Touch; }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
-        public void Enable() { Get().Enable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
-        public void Disable() { Get().Disable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
-        public bool enabled => Get().enabled;
-        /// <summary>
-        /// Implicitly converts an <see ref="TouchActions" /> to an <see ref="InputActionMap" /> instance.
-        /// </summary>
-        public static implicit operator InputActionMap(TouchActions set) { return set.Get(); }
-        /// <summary>
-        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <param name="instance">Callback instance.</param>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
-        /// </remarks>
-        /// <seealso cref="TouchActions" />
-        public void AddCallbacks(ITouchActions instance)
-        {
-            if (instance == null || m_Wrapper.m_TouchActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_TouchActionsCallbackInterfaces.Add(instance);
-            @ClickOnAsteroid.started += instance.OnClickOnAsteroid;
-            @ClickOnAsteroid.performed += instance.OnClickOnAsteroid;
-            @ClickOnAsteroid.canceled += instance.OnClickOnAsteroid;
-        }
-
-        /// <summary>
-        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <remarks>
-        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
-        /// </remarks>
-        /// <seealso cref="TouchActions" />
-        private void UnregisterCallbacks(ITouchActions instance)
-        {
-            @ClickOnAsteroid.started -= instance.OnClickOnAsteroid;
-            @ClickOnAsteroid.performed -= instance.OnClickOnAsteroid;
-            @ClickOnAsteroid.canceled -= instance.OnClickOnAsteroid;
-        }
-
-        /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="TouchActions.UnregisterCallbacks(ITouchActions)" />.
-        /// </summary>
-        /// <seealso cref="TouchActions.UnregisterCallbacks(ITouchActions)" />
-        public void RemoveCallbacks(ITouchActions instance)
-        {
-            if (m_Wrapper.m_TouchActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        /// <summary>
-        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
-        /// </summary>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
-        /// </remarks>
-        /// <seealso cref="TouchActions.AddCallbacks(ITouchActions)" />
-        /// <seealso cref="TouchActions.RemoveCallbacks(ITouchActions)" />
-        /// <seealso cref="TouchActions.UnregisterCallbacks(ITouchActions)" />
-        public void SetCallbacks(ITouchActions instance)
-        {
-            foreach (var item in m_Wrapper.m_TouchActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_TouchActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    /// <summary>
-    /// Provides a new <see cref="TouchActions" /> instance referencing this action map.
-    /// </summary>
-    public TouchActions @Touch => new TouchActions(this);
-    /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Touch" which allows adding and removing callbacks.
-    /// </summary>
-    /// <seealso cref="TouchActions.AddCallbacks(ITouchActions)" />
-    /// <seealso cref="TouchActions.RemoveCallbacks(ITouchActions)" />
-    public interface ITouchActions
-    {
-        /// <summary>
-        /// Method invoked when associated input action "ClickOnAsteroid" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnClickOnAsteroid(InputAction.CallbackContext context);
     }
 }

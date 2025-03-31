@@ -50,7 +50,6 @@ public class Spaceship : MonoBehaviour {
     private bool isTraveling = false;
     private float travelProgress = 0f;
     private Dictionary<DeliveryItems, DeliveryData> deliveryItems = new();
-    private InputActions inputActions;
 
     private void Awake() {
         if (Instance != null) {
@@ -59,8 +58,6 @@ public class Spaceship : MonoBehaviour {
         }
 
         Instance = this;
-        inputActions = new InputActions();
-        inputActions.Touch.Enable();
 
         UpdateShipStats();
         fuel = currentMaxFuel;
@@ -86,15 +83,6 @@ public class Spaceship : MonoBehaviour {
             asteroid.MineResource(currentMiningSpeed * Time.deltaTime);
             fuel -= baseFuelConsumption * upgrades.fuelEfficiencyMultiplier * Time.deltaTime;
             durability -= baseDurabilityConsumption * Time.deltaTime;
-
-            if (inputActions.Touch.ClickOnAsteroid.WasPerformedThisFrame()) {
-                asteroid.MineResource(currentMiningSpeed * 0.5f);
-                durability -= baseDurabilityConsumption * 3f;
-
-                Vector2 screenPosition = Mouse.current.position.ReadValue();
-                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-                BonusManager.Instance.TryDropBonus(worldPosition);
-            }
         } else if (isTraveling) {
             TravelToLocation();
         }
