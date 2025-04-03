@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static Spaceship;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Spaceship : MonoBehaviour {
     public static Spaceship Instance { get; private set; }
@@ -16,15 +14,6 @@ public class Spaceship : MonoBehaviour {
         public bool isPaidDelivery = false;
         public float deliveryProgress = 0f;
         public float value = 0f;
-    }
-
-    [System.Serializable]
-    public class ShipUpgrades {
-        public float fuelCapacityMultiplier = 1f;
-        public float fuelEfficiencyMultiplier = 1f;
-        public float durabilityMultiplier = 1f;
-        public float miningSpeedMultiplier = 1f;
-        public float travelSpeedMultiplier = 1f;
     }
 
     [Header("Base Stats")]
@@ -43,8 +32,7 @@ public class Spaceship : MonoBehaviour {
     private float currentMiningSpeed;
     private float currentTravelSpeed;
 
-    [SerializeField] private ShipUpgrades upgrades = new();
-
+    private ShipUpgradeManager upgradeManager;
     private Location currentLocation;
     private Location targetLocation;
     private bool isTraveling = false;
@@ -58,6 +46,7 @@ public class Spaceship : MonoBehaviour {
         }
 
         Instance = this;
+        upgradeManager = new ShipUpgradeManager(this);
 
         UpdateShipStats();
         fuel = currentMaxFuel;
@@ -81,7 +70,7 @@ public class Spaceship : MonoBehaviour {
         if (currentLocation is Asteroid asteroid && targetLocation == null
             && Inventory.Instance.currentCapacity < Inventory.Instance.maxCapacity) {
             asteroid.MineResource(currentMiningSpeed * Time.deltaTime);
-            fuel -= baseFuelConsumption * upgrades.fuelEfficiencyMultiplier * Time.deltaTime;
+            fuel -= baseFuelConsumption * upgradeManager.GetFuelEfficiencyMultiplier() * Time.deltaTime;
             durability -= baseDurabilityConsumption * Time.deltaTime;
         } else if (isTraveling) {
             TravelToLocation();
@@ -102,44 +91,24 @@ public class Spaceship : MonoBehaviour {
     }
 
 
-    public void UpgradeFuelCapacity(float multiplierIncrease) {
-        upgrades.fuelCapacityMultiplier += multiplierIncrease;
-        UpdateShipStats();
+    public void UpdateShipStats() {
+        currentMaxFuel = baseMaxFuel * upgradeManager.GetFuelCapacityMultiplier();
+        currentMaxDurability = baseMaxDurability * upgradeManager.GetDurabilityMultiplier();
+        currentMiningSpeed = baseMiningSpeed * upgradeManager.GetMiningSpeedMultiplier();
+        currentTravelSpeed = baseTravelSpeed * upgradeManager.GetTravelSpeedMultiplier();
+    }
+
+    public void ClampFuel() {
         fuel = Mathf.Min(fuel, currentMaxFuel);
     }
 
-    public void UpgradeFuelEfficiency(float multiplierDecrease) {
-        upgrades.fuelEfficiencyMultiplier -= multiplierDecrease;
-        upgrades.fuelEfficiencyMultiplier = Mathf.Max(0.1f, upgrades.fuelEfficiencyMultiplier);
-    }
-
-    public void UpgradeDurability(float multiplierIncrease) {
-        upgrades.durabilityMultiplier += multiplierIncrease;
-        UpdateShipStats();
+    public void ClampDurability() {
         durability = Mathf.Min(durability, currentMaxDurability);
-    }
-
-    public void UpgradeMiningSpeed(float multiplierIncrease) {
-        upgrades.miningSpeedMultiplier += multiplierIncrease;
-        UpdateShipStats();
-    }
-
-    public void UpgradeTravelSpeed(float multiplierIncrease) {
-        upgrades.travelSpeedMultiplier += multiplierIncrease;
-        UpdateShipStats();
-    }
-
-    private void UpdateShipStats() {
-        currentMaxFuel = baseMaxFuel * upgrades.fuelCapacityMultiplier;
-        currentMaxDurability = baseMaxDurability * upgrades.durabilityMultiplier;
-        currentMiningSpeed = baseMiningSpeed * upgrades.miningSpeedMultiplier;
-        currentTravelSpeed = baseTravelSpeed * upgrades.travelSpeedMultiplier;
     }
 
     public float GetCurrentMaxFuel() => currentMaxFuel;
     public float GetCurrentMaxDurability() => currentMaxDurability;
     public float GetCurrentMiningSpeed() => currentMiningSpeed;
-
 
     public void TravelTo(Location location) {
         if (isTraveling) {
@@ -165,7 +134,7 @@ public class Spaceship : MonoBehaviour {
         float travelTime = 10f;
         travelProgress += Time.deltaTime / travelTime * 100f * currentTravelSpeed;
 
-        fuel -= baseFuelConsumption * upgrades.fuelEfficiencyMultiplier * Time.deltaTime;
+        fuel -= baseFuelConsumption * upgradeManager.GetFuelEfficiencyMultiplier() * Time.deltaTime;
 
         if (travelProgress >= 100f) {
             isTraveling = false;
