@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,7 +33,7 @@ public class Spaceship : MonoBehaviour {
     private float currentMiningSpeed;
     private float currentTravelSpeed;
 
-    private ShipUpgradeManager upgradeManager;
+    [DoNotSerialize] public ShipUpgradeManager upgradeManager;
     private Location currentLocation;
     private Location targetLocation;
     private bool isTraveling = false;
@@ -109,6 +110,7 @@ public class Spaceship : MonoBehaviour {
     public float GetCurrentMaxFuel() => currentMaxFuel;
     public float GetCurrentMaxDurability() => currentMaxDurability;
     public float GetCurrentMiningSpeed() => currentMiningSpeed;
+
 
     public void TravelTo(Location location) {
         if (isTraveling) {

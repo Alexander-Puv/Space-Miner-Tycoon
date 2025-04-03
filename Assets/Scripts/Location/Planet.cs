@@ -44,7 +44,7 @@ public class Planet : Location {
         float cost = PlanetEconomy.Instance.GetServicePrice(PlanetEconomy.ServiceType.Upgrade);
 
         if (Inventory.Instance.SpendMoney(cost)) {
-            Spaceship.Instance.UpgradeTravelSpeed(0.1f);
+            Spaceship.Instance.upgradeManager.UpgradeTravelSpeed(0.1f);
             Debug.Log($"Upgrade purchased for {cost} credits!");
         } else {
             Debug.Log("Not enough money for upgrade!");
