@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\BonusManager.cs" />
+    <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\Location\Location.cs" />
     <Compile Include="Assets\Scripts\TravelMenu.cs" />
     <Compile Include="Assets\Scripts\Location\Asteroid.cs" />

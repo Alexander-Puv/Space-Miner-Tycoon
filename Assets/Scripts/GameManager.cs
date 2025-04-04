@@ -13,20 +13,14 @@ public class GameManager : MonoBehaviour {
         Legendary
     }
 
-    private const string TRAVEL_BUTTON = "TravelButton";
-    private const string TRAVEL_CLOSE_MENU_BUTTON = "CloseMenu";
-
     [SerializeField] private Asteroid asteroidPrefab;
     [SerializeField] private List<AsteroidModel> asteroidModels;
     [SerializeField] private Planet planetPrefab;
     [SerializeField] private List<PlanetModel> planetModels;
-    [SerializeField] private UIDocument UIDoc;
 
     public List<Resource> resourcesList;
 
     private Location currentLocation;
-    private Button travelButton;
-    private Button travelCloseMenuButton;
 
     private void Awake() {
         if (Instance != null) {
@@ -35,17 +29,6 @@ public class GameManager : MonoBehaviour {
         }
 
         Instance = this;
-
-        travelButton = UIDoc.rootVisualElement.Q<Button>(TRAVEL_BUTTON);
-        travelCloseMenuButton = UIDoc.rootVisualElement.Q<Button>(TRAVEL_CLOSE_MENU_BUTTON);
-
-        travelButton.RegisterCallback<MouseEnterEvent>(OnTravelButtonHover);
-        travelButton.RegisterCallback<MouseLeaveEvent>(OnTravelButtonUnhover);
-        travelButton.RegisterCallback<ClickEvent>(OnTravelButtonClick);
-
-        travelCloseMenuButton.RegisterCallback<MouseEnterEvent>(OnTravelCloseMenuButtonHover);
-        travelCloseMenuButton.RegisterCallback<MouseLeaveEvent>(OnTravelCloseMenuButtonUnhover);
-        travelCloseMenuButton.RegisterCallback<ClickEvent>(OnTravelCloseMenuButtonClick);
     }
 
     private void Start() {
@@ -70,7 +53,7 @@ public class GameManager : MonoBehaviour {
         TravelMenu.Instance.GenerateNewLocations();
         TravelMenu.Instance.HideMenu();
 
-        SetTravelButtonsDisplay(false);
+        UIManager.Instance.SetTravelButtonsDisplay(false);
     }
 
     public Location GetLocation() {
@@ -102,40 +85,6 @@ public class GameManager : MonoBehaviour {
         return (Vector2)position;
     }
 
-
-    public void SetTravelButtonsDisplay(bool showMenu) {
-        if (showMenu) {
-            travelButton.style.display = DisplayStyle.None;
-            travelCloseMenuButton.style.display = DisplayStyle.Flex;
-        } else {
-            travelButton.style.display = DisplayStyle.Flex;
-            travelCloseMenuButton.style.display = DisplayStyle.None;
-        }
-    }
-
-    private void OnTravelButtonHover(MouseEnterEvent e) {
-        travelButton.style.scale = new StyleScale(new Scale(new Vector2(1.1f, 1.1f)));
-    }
-
-    private void OnTravelButtonUnhover(MouseLeaveEvent e) {
-        travelButton.style.scale = new StyleScale(new Scale(Vector2.one));
-    }
-
-    private void OnTravelButtonClick(ClickEvent e) {
-        TravelMenu.Instance.ShowMenu();
-    }
-
-    private void OnTravelCloseMenuButtonHover(MouseEnterEvent e) {
-        //////////////////////////
-    }
-
-    private void OnTravelCloseMenuButtonUnhover(MouseLeaveEvent e) {
-        //////////////////////////
-    }
-
-    private void OnTravelCloseMenuButtonClick(ClickEvent e) {
-        TravelMenu.Instance.HideMenu();
-    }
 
     public void StartTravel(Location location) {
         Spaceship.Instance.TravelTo(location);

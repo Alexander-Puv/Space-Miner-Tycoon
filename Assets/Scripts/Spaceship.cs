@@ -33,7 +33,7 @@ public class Spaceship : MonoBehaviour {
     private float currentMiningSpeed;
     private float currentTravelSpeed;
 
-    [DoNotSerialize] public ShipUpgradeManager upgradeManager;
+    private ShipUpgradeManager upgradeManager;
     private Location currentLocation;
     private Location targetLocation;
     private bool isTraveling = false;
@@ -107,6 +107,7 @@ public class Spaceship : MonoBehaviour {
         durability = Mathf.Min(durability, currentMaxDurability);
     }
 
+    public ShipUpgradeManager GetShipUpgradeManager() => upgradeManager;
     public float GetCurrentMaxFuel() => currentMaxFuel;
     public float GetCurrentMaxDurability() => currentMaxDurability;
     public float GetCurrentMiningSpeed() => currentMiningSpeed;

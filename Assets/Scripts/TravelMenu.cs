@@ -22,14 +22,14 @@ public class TravelMenu : MonoBehaviour {
         mainCamera.transform.position = cameraOriginalPosition + Vector3.right * cameraWidth;
         transform.position = mainCamera.transform.position + new Vector3(0, 0, 10);
 
-        GameManager.Instance.SetTravelButtonsDisplay(true);
+        UIManager.Instance.SetTravelButtonsDisplay(true);
         gameObject.SetActive(true);
     }
 
     public void HideMenu() {
         mainCamera.transform.position = cameraOriginalPosition;
 
-        GameManager.Instance.SetTravelButtonsDisplay(false);
+        UIManager.Instance.SetTravelButtonsDisplay(false);
         gameObject.SetActive(false);
     }
 
@@ -53,7 +53,7 @@ public class TravelMenu : MonoBehaviour {
         }
 
         HideMenu();
-        GameManager.Instance.SetTravelButtonsDisplay(false);
+        UIManager.Instance.SetTravelButtonsDisplay(false);
         location.SetCanBeSelected(false);
         GameManager.Instance.StartTravel(location);
     }
