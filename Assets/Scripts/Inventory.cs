@@ -4,7 +4,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
     public static Inventory Instance { get; private set; }
     
-    [SerializeField] private float money;
+    public float money;
 
     public Dictionary<Resource, int> resources = new();
     public int maxCapacity = 1000;
@@ -32,6 +32,7 @@ public class Inventory : MonoBehaviour {
         }
 
         currentCapacity += amount;
+        UIManager.Instance.UpdateResourcesDisplay(currentCapacity);
         Debug.Log($"Added {amount} of {resource.resourceName}. Total: {resources[resource]}");
         return true;
     }
@@ -46,6 +47,7 @@ public class Inventory : MonoBehaviour {
             }
         }
 
+        UIManager.Instance.UpdateResourcesDisplay(currentCapacity);
         int total = resources.ContainsKey(resource) ? resources[resource] : 0;
         Debug.Log($"Removed {amount} of {resource.resourceName}. Total: {total}");
     }

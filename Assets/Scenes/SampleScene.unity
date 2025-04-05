@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 1963763631}
   - component: {fileID: 1963763632}
   - component: {fileID: 1963763633}
+  - component: {fileID: 1963763634}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -686,7 +687,6 @@ MonoBehaviour:
   planetModels:
   - {fileID: -53269941447133883, guid: 340823881ae3b49419f698fed747e87d, type: 3}
   - {fileID: -6926342928375730815, guid: 658bee016b4e9034c87ba8a4ae512fc3, type: 3}
-  UIDoc: {fileID: 577105630}
   resourcesList:
   - {fileID: 5927640663592531297, guid: ad4ecd81fcff8ab498c2682dc0a4c1aa, type: 3}
 --- !u!114 &1963763632
@@ -717,6 +717,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentEvent: 0
+--- !u!114 &1963763634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963763629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f9d000777506d74b890c22a9178427b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIDoc: {fileID: 577105630}
 --- !u!1 &2017194629
 GameObject:
   m_ObjectHideFlags: 0
