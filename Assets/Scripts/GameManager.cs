@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
@@ -54,6 +53,7 @@ public class GameManager : MonoBehaviour {
         TravelMenu.Instance.HideMenu();
 
         UIManager.Instance.SetTravelButtonsDisplay(false);
+        UIManager.Instance.SetInventoryElementsDisplay(false);
     }
 
     public Location GetLocation() {

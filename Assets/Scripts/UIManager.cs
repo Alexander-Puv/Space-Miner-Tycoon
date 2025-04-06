@@ -5,17 +5,29 @@ using UnityEngine.UIElements;
 public class UIManager : MonoBehaviour {
     public static UIManager Instance { get; private set; }
 
+    // travel and close buttons
     private const string TRAVEL_BUTTON = "TravelButton";
-    private const string TRAVEL_CLOSE_MENU_BUTTON = "CloseMenu";
+    private const string CLOSE_BUTTON = "Close";
+    // HUD
     private const string MONEY_LABEL = "MoneyLabel";
     private const string RESOURCES_LABEL = "ResourcesLabel";
+    // Inventory
+    private const string OPEN_INVENTORY_BUTTON = "OpenInventory";
+    private const string INVENTORY_VISUAL = "Inventory";
+    private const string INVENTORY_MONEY_LABEL = "InventoryMoneyLabel";
 
     [SerializeField] private UIDocument UIDoc;
 
+    // travel and close buttons
     private Button travelButton;
-    private Button travelCloseMenuButton;
+    private Button closeButton;
+    // HUD
     private Label moneyLabel;
     private Label resourcesLabel;
+    // Inventory
+    private Button openInventoryButton;
+    private VisualElement inventoryVisual;
+    private Label inventoryMoneyLabel;
 
     private float animationDuration = .5f;
 
@@ -29,6 +41,9 @@ public class UIManager : MonoBehaviour {
 
         InitializeUIElements();
         RegisterCallbacks();
+
+        moneyLabel.text = inventoryMoneyLabel.text = Inventory.Instance.money.ToString("F0");
+        resourcesLabel.text = Inventory.Instance.currentCapacity.ToString();
     }
 
     private void Start() {
@@ -37,10 +52,18 @@ public class UIManager : MonoBehaviour {
     }
 
     private void InitializeUIElements() {
+        // travel and close buttons
         travelButton = UIDoc.rootVisualElement.Q<Button>(TRAVEL_BUTTON);
-        travelCloseMenuButton = UIDoc.rootVisualElement.Q<Button>(TRAVEL_CLOSE_MENU_BUTTON);
+        closeButton = UIDoc.rootVisualElement.Q<Button>(CLOSE_BUTTON);
+        // HUD
         moneyLabel = UIDoc.rootVisualElement.Q<Label>(MONEY_LABEL);
         resourcesLabel = UIDoc.rootVisualElement.Q<Label>(RESOURCES_LABEL);
+        // Inventory
+        openInventoryButton = UIDoc.rootVisualElement.Q<Button>(OPEN_INVENTORY_BUTTON);
+        inventoryVisual = UIDoc.rootVisualElement.Q<VisualElement>(INVENTORY_VISUAL);
+        inventoryMoneyLabel = inventoryVisual.Q<Label>(INVENTORY_MONEY_LABEL);
+
+        inventoryVisual.style.display = DisplayStyle.None;
     }
 
     private void RegisterCallbacks() {
@@ -48,34 +71,48 @@ public class UIManager : MonoBehaviour {
         travelButton.RegisterCallback<MouseLeaveEvent>(OnTravelButtonUnhover);
         travelButton.RegisterCallback<ClickEvent>(OnTravelButtonClick);
 
-        travelCloseMenuButton.RegisterCallback<MouseEnterEvent>(OnTravelCloseMenuButtonHover);
-        travelCloseMenuButton.RegisterCallback<MouseLeaveEvent>(OnTravelCloseMenuButtonUnhover);
-        travelCloseMenuButton.RegisterCallback<ClickEvent>(OnTravelCloseMenuButtonClick);
+        openInventoryButton.RegisterCallback<MouseEnterEvent>(OnTravelButtonHover);
+        openInventoryButton.RegisterCallback<MouseLeaveEvent>(OnTravelButtonUnhover);
+        openInventoryButton.RegisterCallback<ClickEvent>(OnInventoryButtonClick);
+
+        closeButton.RegisterCallback<MouseEnterEvent>(OnCloseButtonHover);
+        closeButton.RegisterCallback<MouseLeaveEvent>(OnCloseButtonUnhover);
+        closeButton.RegisterCallback<ClickEvent>(OnCloseButtonClick);
     }
 
     public void SetTravelButtonsDisplay(bool showMenu) {
         if (showMenu) {
             travelButton.style.display = DisplayStyle.None;
-            travelCloseMenuButton.style.display = DisplayStyle.Flex;
+            closeButton.style.display = DisplayStyle.Flex;
         } else {
             travelButton.style.display = DisplayStyle.Flex;
-            travelCloseMenuButton.style.display = DisplayStyle.None;
+            closeButton.style.display = DisplayStyle.None;
         }
     }
 
-    public void UpdateMoneyDisplay(float newValue) {
-        float oldValue;
-        if (!float.TryParse(resourcesLabel.text, out oldValue)) {
-            oldValue = 0;
+    public void SetInventoryElementsDisplay(bool showMenu) {
+        if (showMenu) {
+            openInventoryButton.style.display = DisplayStyle.None;
+            closeButton.style.display = DisplayStyle.Flex;
+
+            inventoryVisual.style.display = DisplayStyle.Flex;
+        } else {
+            openInventoryButton.style.display = DisplayStyle.Flex;
+            closeButton.style.display = DisplayStyle.None;
+
+            inventoryVisual.style.display = DisplayStyle.None;
         }
+    }
+
+
+    public void UpdateMoneyDisplay(float newValue) {
+        float oldValue = float.Parse(moneyLabel.text);
         StartCoroutine(AnimateValue(moneyLabel, oldValue, newValue));
+        StartCoroutine(AnimateValue(inventoryMoneyLabel, oldValue, newValue));
     }
 
     public void UpdateResourcesDisplay(int newValue) {
-        int oldValue;
-        if (!int.TryParse(resourcesLabel.text, out oldValue)) {
-            oldValue = 0;
-        }
+        int oldValue = int.Parse(resourcesLabel.text);
         StartCoroutine(AnimateValue(resourcesLabel, oldValue, newValue));
     }
 
@@ -104,15 +141,23 @@ public class UIManager : MonoBehaviour {
         TravelMenu.Instance.ShowMenu();
     }
 
-    private void OnTravelCloseMenuButtonHover(MouseEnterEvent e) {
+    private void OnInventoryButtonClick(ClickEvent e) {
+        SetInventoryElementsDisplay(true);
+    }
+
+    private void OnCloseButtonHover(MouseEnterEvent e) {
         //////////////////////////
     }
 
-    private void OnTravelCloseMenuButtonUnhover(MouseLeaveEvent e) {
+    private void OnCloseButtonUnhover(MouseLeaveEvent e) {
         //////////////////////////
     }
 
-    private void OnTravelCloseMenuButtonClick(ClickEvent e) {
-        TravelMenu.Instance.HideMenu();
+    private void OnCloseButtonClick(ClickEvent e) {
+        if (inventoryVisual.style.display == DisplayStyle.Flex) {
+            SetInventoryElementsDisplay(false);
+        } else {
+            TravelMenu.Instance.HideMenu();
+        }
     }
 }
