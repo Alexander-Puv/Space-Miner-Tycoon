@@ -71,8 +71,9 @@ public class Spaceship : MonoBehaviour {
         if (currentLocation is Asteroid asteroid && targetLocation == null
             && Inventory.Instance.currentCapacity < Inventory.Instance.maxCapacity) {
             asteroid.MineResource(currentMiningSpeed * Time.deltaTime);
-            fuel -= baseFuelConsumption * upgradeManager.GetFuelEfficiencyMultiplier() * Time.deltaTime;
-            durability -= baseDurabilityConsumption * Time.deltaTime;
+            ConsumeFuel();
+            durability -= baseDurabilityConsumption
+                / CrewManager.Instance.GetCrewBonus(CrewManager.CrewType.Engineer) * Time.deltaTime;
         } else if (isTraveling) {
             TravelToLocation();
         }
@@ -92,11 +93,17 @@ public class Spaceship : MonoBehaviour {
     }
 
 
+    private void ConsumeFuel() {
+        fuel -= baseFuelConsumption * upgradeManager.GetFuelEfficiencyMultiplier()
+            * CrewManager.Instance.GetCrewBonus(CrewManager.CrewType.Pilot) * Time.deltaTime;
+    }
+
+
     public void UpdateShipStats() {
         currentMaxFuel = baseMaxFuel * upgradeManager.GetFuelCapacityMultiplier();
         currentMaxDurability = baseMaxDurability * upgradeManager.GetDurabilityMultiplier();
-        currentMiningSpeed = baseMiningSpeed * upgradeManager.GetMiningSpeedMultiplier();
-        currentTravelSpeed = baseTravelSpeed * upgradeManager.GetTravelSpeedMultiplier();
+        currentMiningSpeed = baseMiningSpeed * upgradeManager.GetMiningSpeedMultiplier() * CrewManager.Instance.GetCrewBonus(CrewManager.CrewType.Scientist);
+        currentTravelSpeed = baseTravelSpeed * upgradeManager.GetTravelSpeedMultiplier() * CrewManager.Instance.GetCrewBonus(CrewManager.CrewType.Pilot);
     }
 
     public void ClampFuel() {
@@ -137,7 +144,7 @@ public class Spaceship : MonoBehaviour {
         float travelTime = 10f;
         travelProgress += Time.deltaTime / travelTime * 100f * currentTravelSpeed;
 
-        fuel -= baseFuelConsumption * upgradeManager.GetFuelEfficiencyMultiplier() * Time.deltaTime;
+        ConsumeFuel();
 
         if (travelProgress >= 100f) {
             isTraveling = false;
@@ -170,9 +177,9 @@ public class Spaceship : MonoBehaviour {
         List<DeliveryItems> removeKey = new();
         foreach (var item in deliveryItems) {
             float travelTime = 10f;
-            float deliveryTravelSpeed = 1f;
+            float deliveryTravelSpeed = 1f * CrewManager.Instance.GetCrewBonus(CrewManager.CrewType.Engineer);
             if (item.Value.isPaidDelivery) {
-                deliveryTravelSpeed = 2f;
+                deliveryTravelSpeed *= 2f;
             }
             item.Value.deliveryProgress += Time.deltaTime / travelTime * 100f * deliveryTravelSpeed;
 
